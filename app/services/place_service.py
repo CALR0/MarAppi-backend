@@ -12,7 +12,7 @@ def create_place(data):
         raise ValueError('name and category_id are required')
 
     # Basic check that category exists
-    cat = Category.query.get(category_id)
+    cat = db.session.get(Category, category_id)
     if not cat:
         raise NotFoundError('Category not found')
 
@@ -27,14 +27,14 @@ def get_all_places():
 
 
 def get_place(place_id):
-    p = Place.query.get(place_id)
+    p = db.session.get(Place, place_id)
     if not p:
         raise NotFoundError('Place not found')
     return p
 
 
 def update_place(place_id, data):
-    p = Place.query.get(place_id)
+    p = db.session.get(Place, place_id)
     if not p:
         raise NotFoundError('Place not found')
 
@@ -47,7 +47,7 @@ def update_place(place_id, data):
 
     if 'category_id' in data:
         # validate category exists
-        cat = Category.query.get(data.get('category_id'))
+        cat = db.session.get(Category, data.get('category_id'))
         if not cat:
             raise NotFoundError('Category not found')
         p.category_id = data.get('category_id')
@@ -57,7 +57,7 @@ def update_place(place_id, data):
 
 
 def delete_place(place_id):
-    p = Place.query.get(place_id)
+    p = db.session.get(Place, place_id)
     if not p:
         raise NotFoundError('Place not found')
 

@@ -19,14 +19,14 @@ def get_all_categories():
 
 
 def get_category(category_id):
-    cat = Category.query.get(category_id)
+    cat = db.session.get(Category, category_id)
     if not cat:
         raise NotFoundError('Category not found')
     return cat
 
 
 def update_category(category_id, data):
-    cat = Category.query.get(category_id)
+    cat = db.session.get(Category, category_id)
     if not cat:
         raise NotFoundError('Category not found')
 
@@ -39,7 +39,7 @@ def update_category(category_id, data):
 
 
 def delete_category(category_id):
-    cat = Category.query.get(category_id)
+    cat = db.session.get(Category, category_id)
     if not cat:
         raise NotFoundError('Category not found')
 

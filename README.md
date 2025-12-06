@@ -157,4 +157,19 @@ Remember to backup your DB first if it contains any important data:
 ```bat
 copy instance\marappi.db instance\marappi.db.bak
 ```
+
+Testing
+-------
+
+Automated tests were added for services and controllers (categories, places,
+and reviews). To run the test suite locally:
+
+1. Run pytest from the project root:
+```powershell
+pytest -q
+```
+
+The tests use an in-memory SQLite database and don't modify your local
+`instance/marappi.db`.
+
 All contributions are welcome!
