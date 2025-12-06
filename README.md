@@ -172,8 +172,6 @@ pytest -q
 The tests use an in-memory SQLite database and don't modify your local
 `instance/marappi.db`.
 
-All contributions are welcome!
-
 **Swagger UI**
 
 - **What:** The project includes Swagger UI (via `Flasgger`) so you can
@@ -227,5 +225,4 @@ def create_category():
 		# controller logic here
 ```
 
-If you want, I can add example docstrings to one or two endpoints so the
-UI shows realistic request/response examples right away.
+All contributions are welcome!
