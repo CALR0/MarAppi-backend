@@ -27,6 +27,20 @@ $env:FLASK_ENV = 'development'
 flask run
 ```
 
+Environment variables and `.env`
+--------------------------------
+
+This project supports configuring the app via environment variables. For
+local development you can copy `.env.example` to `.env` and edit values
+locally. The `.env` file is ignored by git (so secrets won't be committed),
+while `.env.example` is included in the repo as a template for teammates.
+
+Example:
+```powershell
+copy .env.example .env
+# then edit .env to set SECRET_KEY or DATABASE_URL
+``` 
+
 Database migrations (Flask-Migrate)
 - Initialize migrations (only once):
 ```powershell
@@ -143,4 +157,19 @@ Remember to backup your DB first if it contains any important data:
 ```bat
 copy instance\marappi.db instance\marappi.db.bak
 ```
+
+Testing
+-------
+
+Automated tests were added for services and controllers (categories, places,
+and reviews). To run the test suite locally:
+
+1. Run pytest from the project root:
+```powershell
+pytest -q
+```
+
+The tests use an in-memory SQLite database and don't modify your local
+`instance/marappi.db`.
+
 All contributions are welcome!

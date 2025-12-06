@@ -21,6 +21,7 @@ marappi.db
 # Environment variables
 .env
 .env.*
+!.env.example
 
 # IDE/editor
 .vscode/
