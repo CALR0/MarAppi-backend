@@ -21,17 +21,25 @@ def create_app():
 
     # Initialize extensions
     db.init_app(app)
-    # Initialize Swagger (Flasgger) with a minimal OpenAPI template
+    # Initialize Swagger (Flasgger). Prefer an external spec file if present
     try:
-        template = {
-            "openapi": "3.0.2",
-            "info": {
-                "title": "MarAppi API",
-                "version": "1.0.0",
-                "description": "API documentation for MarAppi backend"
+        import os
+        # Look for an external OpenAPI spec at project_root/docs/openapi.yaml
+        project_root = os.path.abspath(os.path.join(app.root_path, '..'))
+        external_spec = os.path.join(project_root, 'docs', 'openapi.yaml')
+        if os.path.exists(external_spec):
+            swagger.init_app(app, template_file=external_spec)
+        else:
+            # Fallback minimal template
+            template = {
+                "openapi": "3.0.2",
+                "info": {
+                    "title": "MarAppi API",
+                    "version": "1.0.0",
+                    "description": "API documentation for MarAppi backend"
+                }
             }
-        }
-        swagger.init_app(app, template=template)
+            swagger.init_app(app, template=template)
     except Exception:
         # If Flasgger isn't configured or available, don't crash app startup
         pass
