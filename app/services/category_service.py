@@ -1,5 +1,6 @@
 from ..extensions import db
 from ..models.category import Category
+from ..errors import NotFoundError
 
 
 def create_category(data):
@@ -18,4 +19,30 @@ def get_all_categories():
 
 
 def get_category(category_id):
-    return Category.query.get(category_id)
+    cat = Category.query.get(category_id)
+    if not cat:
+        raise NotFoundError('Category not found')
+    return cat
+
+
+def update_category(category_id, data):
+    cat = Category.query.get(category_id)
+    if not cat:
+        raise NotFoundError('Category not found')
+
+    name = data.get('name')
+    if name is not None:
+        cat.name = name
+
+    db.session.commit()
+    return cat
+
+
+def delete_category(category_id):
+    cat = Category.query.get(category_id)
+    if not cat:
+        raise NotFoundError('Category not found')
+
+    db.session.delete(cat)
+    db.session.commit()
+    return True
