@@ -21,9 +21,17 @@ def create_app():
 
     # Initialize extensions
     db.init_app(app)
-    # Initialize Swagger (Flasgger)
+    # Initialize Swagger (Flasgger) with a minimal OpenAPI template
     try:
-        swagger.init_app(app)
+        template = {
+            "openapi": "3.0.2",
+            "info": {
+                "title": "MarAppi API",
+                "version": "1.0.0",
+                "description": "API documentation for MarAppi backend"
+            }
+        }
+        swagger.init_app(app, template=template)
     except Exception:
         # If Flasgger isn't configured or available, don't crash app startup
         pass
