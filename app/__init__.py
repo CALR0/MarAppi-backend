@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from .config import Config
-from .extensions import db
+from .extensions import db, migrate
 
 # Exceptions
 from marshmallow import ValidationError
@@ -21,6 +21,13 @@ def create_app():
 
     # Initialize extensions
     db.init_app(app)
+    # Ensure models are imported so Alembic/autogenerate can see SQLAlchemy metadata
+    # Use a relative import to avoid shadowing the `app` variable.
+    from . import models  # noqa: F401
+    # Defensive: ensure app.extensions is a dict (some import setups may shadow it)
+    if not isinstance(getattr(app, 'extensions', None), dict):
+        app.extensions = {}
+    migrate.init_app(app, db)
 
     # Import blueprints (each route module must expose `bp`)
     from .routes.category_routes import bp as categories_bp
@@ -52,8 +59,7 @@ def create_app():
         # You might want to log the exception here
         return jsonify({'error': 'Internal server error'}), 500
 
-    # Create DB tables when app starts (safe for simple apps)
-    with app.app_context():
-        db.create_all()
+    # Note: using Flask-Migrate for schema migrations. Do not use db.create_all()
+    # in production; use the `flask db` commands instead.
 
     return app
