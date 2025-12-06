@@ -1,5 +1,6 @@
 Flask
 Flask-SQLAlchemy
 marshmallow
-Flask
-Flask-SQLAlchemy
+Flask-Migrate
+alembic
+psycopg2-binary
