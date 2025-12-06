@@ -1,6 +1,6 @@
-# MarAppi Backend
+# MarAppi
 
-Minimal Flask REST API for managing categories, places and reviews for tourism in Santa Marta.
+Flask REST API for managing categories, places and reviews for tourism in Santa Marta.
 
 Essentials
 - Python 3.8+
