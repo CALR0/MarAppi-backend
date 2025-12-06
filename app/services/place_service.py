@@ -27,4 +27,40 @@ def get_all_places():
 
 
 def get_place(place_id):
-    return Place.query.get(place_id)
+    p = Place.query.get(place_id)
+    if not p:
+        raise NotFoundError('Place not found')
+    return p
+
+
+def update_place(place_id, data):
+    p = Place.query.get(place_id)
+    if not p:
+        raise NotFoundError('Place not found')
+
+    name = data.get('name')
+    if name is not None:
+        p.name = name
+
+    if 'description' in data:
+        p.description = data.get('description')
+
+    if 'category_id' in data:
+        # validate category exists
+        cat = Category.query.get(data.get('category_id'))
+        if not cat:
+            raise NotFoundError('Category not found')
+        p.category_id = data.get('category_id')
+
+    db.session.commit()
+    return p
+
+
+def delete_place(place_id):
+    p = Place.query.get(place_id)
+    if not p:
+        raise NotFoundError('Place not found')
+
+    db.session.delete(p)
+    db.session.commit()
+    return True
