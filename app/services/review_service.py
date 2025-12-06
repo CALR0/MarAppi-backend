@@ -1,6 +1,8 @@
+
 from ..extensions import db
 from ..models.review import Review
 from ..models.place import Place
+from ..errors import NotFoundError
 
 
 def create_review(data):
@@ -12,7 +14,7 @@ def create_review(data):
 
     place = Place.query.get(place_id)
     if not place:
-        raise ValueError('place not found')
+        raise NotFoundError('Place not found')
 
     review = Review(content=content, rating=int(rating), place_id=place_id)
     db.session.add(review)

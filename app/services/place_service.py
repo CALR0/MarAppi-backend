@@ -1,6 +1,8 @@
+
 from ..extensions import db
 from ..models.place import Place
 from ..models.category import Category
+from ..errors import NotFoundError
 
 
 def create_place(data):
@@ -12,7 +14,7 @@ def create_place(data):
     # Basic check that category exists
     cat = Category.query.get(category_id)
     if not cat:
-        raise ValueError('category not found')
+        raise NotFoundError('Category not found')
 
     place = Place(name=name, description=data.get('description'), category_id=category_id)
     db.session.add(place)
