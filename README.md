@@ -172,4 +172,57 @@ pytest -q
 The tests use an in-memory SQLite database and don't modify your local
 `instance/marappi.db`.
 
+**Swagger UI**
+
+- **What:** The project includes Swagger UI (via `Flasgger`) so you can
+	interactively explore and test the API endpoints from your browser.
+- **URL:** `http://localhost:5000/apidocs`
+- **Requirements:** `flasgger` is already added to `requirements.txt`.
+
+- **Run locally:**
+```powershell
+# install dependencies (if not already done)
+python -m pip install -r .\requirements.txt
+
+$env:FLASK_APP = 'app:create_app'
+$env:FLASK_ENV = 'development'
+flask run
+```
+
+- **Notes:**
+	- Flasgger generates docs from route docstrings. To expose parameters,
+		request/response schemas and examples in the UI, add a YAML-style
+		docstring to your route functions (see example below).
+	- The UI uses a minimal OpenAPI template (title/version/description).
+
+- **Example docstring (in a route file):**
+```python
+@bp.route('/api/categories', methods=['POST'])
+def create_category():
+		"""
+		Create a new category
+		---
+		tags:
+			- Categories
+		requestBody:
+			content:
+				application/json:
+					schema:
+						type: object
+						properties:
+							name:
+								type: string
+						required:
+							- name
+		responses:
+			201:
+				description: Created
+				content:
+					application/json:
+						schema:
+							$ref: '#/components/schemas/Category'
+		"""
+		# controller logic here
+```
+
 All contributions are welcome!
