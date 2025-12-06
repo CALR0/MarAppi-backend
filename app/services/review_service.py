@@ -12,7 +12,7 @@ def create_review(data):
     if not content or rating is None or not place_id:
         raise ValueError('content, rating and place_id are required')
 
-    place = Place.query.get(place_id)
+    place = db.session.get(Place, place_id)
     if not place:
         raise NotFoundError('Place not found')
 
@@ -27,14 +27,14 @@ def get_reviews_for_place(place_id):
 
 
 def get_review(review_id):
-    r = Review.query.get(review_id)
+    r = db.session.get(Review, review_id)
     if not r:
         raise NotFoundError('Review not found')
     return r
 
 
 def update_review(review_id, data):
-    r = Review.query.get(review_id)
+    r = db.session.get(Review, review_id)
     if not r:
         raise NotFoundError('Review not found')
 
@@ -45,7 +45,7 @@ def update_review(review_id, data):
         r.rating = int(data.get('rating'))
 
     if 'place_id' in data:
-        place = Place.query.get(data.get('place_id'))
+        place = db.session.get(Place, data.get('place_id'))
         if not place:
             raise NotFoundError('Place not found')
         r.place_id = data.get('place_id')
@@ -55,7 +55,7 @@ def update_review(review_id, data):
 
 
 def delete_review(review_id):
-    r = Review.query.get(review_id)
+    r = db.session.get(Review, review_id)
     if not r:
         raise NotFoundError('Review not found')
 
