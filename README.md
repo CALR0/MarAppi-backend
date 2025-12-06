@@ -27,6 +27,20 @@ $env:FLASK_ENV = 'development'
 flask run
 ```
 
+Environment variables and `.env`
+--------------------------------
+
+This project supports configuring the app via environment variables. For
+local development you can copy `.env.example` to `.env` and edit values
+locally. The `.env` file is ignored by git (so secrets won't be committed),
+while `.env.example` is included in the repo as a template for teammates.
+
+Example:
+```powershell
+copy .env.example .env
+# then edit .env to set SECRET_KEY or DATABASE_URL
+``` 
+
 Database migrations (Flask-Migrate)
 - Initialize migrations (only once):
 ```powershell
