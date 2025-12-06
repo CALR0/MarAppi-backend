@@ -34,6 +34,3 @@ Thumbs.db
 
 # Testing
 .pytest_cache/
-
-# Flask migration folder
-migrations/
