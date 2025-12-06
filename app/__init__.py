@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from .config import Config
-from .extensions import db, migrate
+from .extensions import db, migrate, swagger
 
 # Exceptions
 from marshmallow import ValidationError
@@ -21,6 +21,12 @@ def create_app():
 
     # Initialize extensions
     db.init_app(app)
+    # Initialize Swagger (Flasgger)
+    try:
+        swagger.init_app(app)
+    except Exception:
+        # If Flasgger isn't configured or available, don't crash app startup
+        pass
     # Ensure models are imported so Alembic/autogenerate can see SQLAlchemy metadata
     # Use a relative import to avoid shadowing the `app` variable.
     from . import models  # noqa: F401
